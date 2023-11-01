@@ -13,7 +13,7 @@ jobs:
       - uses: khan/pull-request-comment-trigger@v1.1.0
         id: check
         with:
-          trigger: "review"
+          trigger: "/review"
           prefix_only: "true"
           reaction: eyes
         env:
@@ -25,11 +25,8 @@ jobs:
       - name: Assign reviewers
         if: steps.check.outputs.triggered == 'true'
         run: |
-          comment=$(echo ${{ github.event.comment.body }})
-          if echo "$comment" | grep -Eq "review|check"; then
-            user_list=$(echo "$comment" | grep -o '@[a-zA-Z0-9_-]*' | sed 's/@//g' | tr '\n' ',')
-            gh pr edit ${{steps.comment-branch.outputs.head_ref}} --add-reviewer $user_list --repo $OWNER/$REPO
-          fi
+          user_list=$(echo "${{ github.event.comment.body }}" | grep -o '@[a-zA-Z0-9_-]*' | sed 's/@//g' | tr '\n' ',')
+          gh pr edit ${{steps.comment-branch.outputs.head_ref}} --add-reviewer $user_list --repo $OWNER/$REPO
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
