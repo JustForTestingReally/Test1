@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Assign reviewers
         run: |
-          comment=$(echo ${{ github.event.comment.body }}
+          comment=$(echo ${{ github.event.comment.body }})
           if echo "$comment" | grep -Eq "review|check"; then
               user_list=$(echo "$input" | grep -o '@[a-zA-Z0-9_]*' | sed 's/@//g' | tr '\n' ' ')
               user_list=$(echo "$user_list" | sed 's/,$//' | sed 's/ $//')
