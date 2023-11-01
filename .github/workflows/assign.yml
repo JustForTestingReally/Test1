@@ -15,8 +15,10 @@ jobs:
           comment=$(echo ${{ github.event.comment.body }})
           if echo "$comment" | grep -Eq "review|check"; then
             user_list=$(echo "$comment" | grep -o '@[a-zA-Z0-9_-]*' | sed 's/@//g' | tr '\n' ',')
-            gh pr edit $PR_NUMBER --add-reviewer $user_list
+            gh pr edit $PR_NUMBER --add-reviewer $user_list --repo $OWNER/$REPO
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
           PR_NUMBER: ${{ github.event.pull_request.number}}
