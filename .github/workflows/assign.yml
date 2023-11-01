@@ -14,7 +14,6 @@ jobs:
         id: check
         with:
           trigger: "review"
-          prefix_only: "true"
           reaction: eyes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
