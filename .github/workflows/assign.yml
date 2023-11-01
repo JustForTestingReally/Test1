@@ -1,0 +1,25 @@
+name: Assign Reviewers
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  assign_reviewers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign reviewers
+        run: |
+          comment=$(echo ${{ github.event.comment.body }}
+          if echo "$comment" | grep -Eq "review|check"; then
+              user_list=$(echo "$input" | grep -o '@[a-zA-Z0-9_]*' | sed 's/@//g' | tr '\n' ' ')
+              user_list=$(echo "$user_list" | sed 's/,$//' | sed 's/ $//')
+              eval "users=($user_list)"
+              for user in "${users[@]}"; do 
+                  gh pr review -a "$user"
+              done
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
