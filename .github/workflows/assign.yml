@@ -18,9 +18,10 @@ jobs:
             user_list=$(echo "$user_list" | sed 's/,$//' | sed 's/ $//')
             eval "users=($user_list)"
             for user in "${users[@]}"; do 
-              gh pr review -a "$user" --repo $REPO
+              gh pr review -a "$user" --repo @OWNER/$REPO
             done
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
