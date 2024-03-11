@@ -5,13 +5,12 @@ on:
     branches: [master]
 
 jobs:
-  assign_reviewers:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Post to a Slack channel on failure
         id: slack
         uses: slackapi/slack-github-action@v1.25.0
-        if: ${{ github.ref_name == 'main' }}
         with:
           channel-id: "C05P3UVCCLS"
           payload: |
