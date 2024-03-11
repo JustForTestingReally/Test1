@@ -1,16 +1,19 @@
 name: Test
 
 on:
-  push:
-    branches: [master]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Fail
+        run: cd ggg
       - name: Post to a Slack channel on failure
         id: slack
         uses: slackapi/slack-github-action@v1.25.0
+        if: ${{ failure() && github.ref_name == 'main' }}
         with:
           channel-id: "C05P3UVCCLS"
           payload: |
