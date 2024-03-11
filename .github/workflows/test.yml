@@ -13,7 +13,7 @@ jobs:
       - name: Post to a Slack channel on failure
         id: slack
         uses: slackapi/slack-github-action@v1.25.0
-        if: ${{ failure() && github.ref_name == 'main' }}
+        if: ${{ failure() && github.ref_name == 'master' }}
         with:
           channel-id: "C05P3UVCCLS"
           payload: |
